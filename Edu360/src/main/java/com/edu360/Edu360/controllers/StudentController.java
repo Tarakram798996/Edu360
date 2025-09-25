@@ -8,6 +8,8 @@ import com.edu360.Edu360.service.ActivityService;
 import com.edu360.Edu360.service.StudentService;
 import com.edu360.Edu360.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +37,17 @@ public class StudentController {
         Long userId = getUserIdFromToken(token);
         return studentService.createOrUpdateProfile(userId, studentDetails);
     }
-
+    @PutMapping("/profile")
+    public ResponseEntity<Student> updateProfile(@RequestHeader("Authorization") String token,
+                                                 @RequestBody Student studentDetails) {
+        Long userId = getUserIdFromToken(token);
+        Student updatedStudent = studentService.createOrUpdateProfile(userId, studentDetails);
+        if (updatedStudent != null) {
+            return new ResponseEntity<>(updatedStudent, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("/profile")
     public Student getProfile(@RequestHeader("Authorization") String token) {

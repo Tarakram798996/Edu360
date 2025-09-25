@@ -24,9 +24,6 @@ public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
-    @Value("${frontend.url:http://localhost:3000}")
-    private String frontendUrl;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -58,7 +55,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(frontendUrl));
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://edu360-frontend.s3-website.ap-south-1.amazonaws.com"
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
