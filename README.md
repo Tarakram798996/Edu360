@@ -1,8 +1,4 @@
-Your README is already structured well but needs better formatting, cleaner section dividers, and some visual polish for GitHub readability. I’ll enhance spacing, simplify formatting, add shields, and improve hierarchy.  
 
-Here’s a cleaner, professional version of your README:
-
-```markdown
 # 🎓 Edu360  
 
 Edu360 is a **full-stack web application** that streamlines academic activity management for students, teachers, and admins. It provides role-based dashboards, post management, and secure authentication with a responsive UI.  
