@@ -1,11 +1,13 @@
 package com.edu360.Edu360.model;
-
-
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @Entity
 @Table(name = "activities")
 public class Activity {

@@ -1,8 +1,14 @@
 package com.edu360.Edu360.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.*;
 
+import java.util.*;
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @Entity
 @Table(name = "students")
 public class Student {
@@ -10,8 +16,8 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     @Column(nullable = false)
@@ -29,6 +35,12 @@ public class Student {
 
     @Column(nullable = false)
     private String sec;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    //@JsonManagedReference
+    private List<Activity> activities = new ArrayList<>();
+
+
     public Student(){}
 
     public Student(User user, String fullName, String regNo, int year, int sem, Double cgpa, String dept, String sec) {
@@ -72,6 +84,14 @@ public class Student {
 
     public void setRegNo(String regNo) {
         this.regNo = regNo;
+    }
+
+    public java.util.List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(java.util.List<Activity> activities) {
+        this.activities = activities;
     }
 
     public int getYear() {

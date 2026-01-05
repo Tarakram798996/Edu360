@@ -31,7 +31,7 @@ public class TeacherController {
     @Autowired
     private ActivityService activityService;
 
-    // 🔹 Create teacher profile
+    //  Create teacher profile
     @PostMapping("/profile")
     public ResponseEntity<Teacher> setProfile(@RequestHeader("Authorization") String token,
                                               @RequestBody Map<String, String> req) {
@@ -55,7 +55,7 @@ public class TeacherController {
         return ResponseEntity.ok(savedTeacher);
     }
 
-    // 🔹 Update teacher profile
+    //  Update teacher profile
     @PutMapping("/profile")
     public ResponseEntity<Teacher> updateProfile(@RequestHeader("Authorization") String token,
                                                  @RequestBody Teacher teacherDetails) {
@@ -81,21 +81,21 @@ public class TeacherController {
         return teacherRepo.save(teacher);
     }
 
-    // 🔹 Get teacher profile
+    //  Get teacher profile
     @GetMapping("/profile")
     public ResponseEntity<Teacher> getProfile(@RequestHeader("Authorization") String token) {
         Teacher teacher = getTeacherFromToken(token);
         return ResponseEntity.ok(teacher);
     }
 
-    // 🔹 Get pending activities for the teacher
+    //  Get pending activities for the teacher
     @GetMapping("/activities/pending")
     public ResponseEntity<List<Activity>> getPendingActivities(@RequestHeader("Authorization") String token) {
         Teacher teacher = getTeacherFromToken(token);
         return ResponseEntity.ok(activityService.getPendingActivitiesForTeacher(teacher));
     }
 
-    // 🔹 Approve an activity
+    //  Approve an activity
     @PatchMapping("/activities/{id}/approve")
     public ResponseEntity<Activity> approveActivity(@RequestHeader("Authorization") String token,
                                                     @PathVariable Long id) {
@@ -103,7 +103,7 @@ public class TeacherController {
         return ResponseEntity.ok(activityService.approveActivity(id, teacher));
     }
 
-    // 🔹 Reject an activity
+    //  Reject an activity
     @PatchMapping("/activities/{id}/reject")
     public ResponseEntity<Activity> rejectActivity(@RequestHeader("Authorization") String token,
                                                    @PathVariable Long id) {
@@ -111,14 +111,14 @@ public class TeacherController {
         return ResponseEntity.ok(activityService.rejectActivity(id, teacher));
     }
 
-    // 🔹 Get all activities verified by this teacher
+    //  Get all activities verified by this teacher
     @GetMapping("/activities/verified")
     public ResponseEntity<List<Activity>> getVerifiedActivities(@RequestHeader("Authorization") String token) {
         Teacher teacher = getTeacherFromToken(token);
         return ResponseEntity.ok(activityService.getVerifiedActivitiesByTeacher(teacher));
     }
 
-    // 🔹 Helper: extract userId from JWT
+    //  Helper: extract userId from JWT
     private Long getUserIdFromToken(String token) {
         if (token.startsWith("Bearer ")) {
             token = token.substring(7);
@@ -129,7 +129,7 @@ public class TeacherController {
         return user.getId();
     }
 
-    // 🔹 Helper: extract Teacher from JWT
+    //  Helper: extract Teacher from JWT
     private Teacher getTeacherFromToken(String token) {
         Long userId = getUserIdFromToken(token);
         return teacherRepo.findByUserId(userId)

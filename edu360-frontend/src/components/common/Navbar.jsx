@@ -70,31 +70,71 @@ const Navbar = () => {
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded-xl shadow-lg py-2 animate-fade-in">
-                  <Link
-                    to={`/${user.role.toLowerCase()}/profile`}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-lg transition"
-                    onClick={toggleDropdown}
-                  >
-                    <User size={18} /> <span>My Profile</span>
-                  </Link>
-                  <Link
-                    to="/profile-setup"
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-lg transition"
-                    onClick={toggleDropdown}
-                  >
-                    <Settings size={18} /> <span>Change Bio Data</span>
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout();
-                      toggleDropdown();
-                    }}
-                    className="flex items-center space-x-2 w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-lg transition"
-                  >
-                    <LogOut size={18} /> <span>Logout</span>
-                  </button>
-                </div>
+                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-2xl shadow-xl py-2 animate-fade-in">
+
+  {/* USER / ADMIN HEADER */}
+  <div className="px-4 py-2 flex items-center space-x-2 text-gray-700">
+    <User size={18} />
+    <span className="font-semibold">
+      {
+  user.role === 'ADMIN'
+    ? 'Administrator'
+    : user.role === 'STUDENT'
+    ? 'Student'
+    : 'Teacher'
+}
+
+    </span>
+
+    {user.role === 'ADMIN' && (
+      <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-600 font-semibold">
+        ADMIN
+      </span>
+    )}
+  </div>
+
+  <div className="border-t my-1" />
+
+  {/* PROFILE */}
+  {user.role !== 'ADMIN' && (
+    <Link
+      to={`/${user.role.toLowerCase()}/profile`}
+      className="flex items-center space-x-2 px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-lg transition"
+      onClick={toggleDropdown}
+    >
+      <User size={18} />
+      <span>My Profile</span>
+    </Link>
+  )}
+
+  {/* CHANGE BIO */}
+  {user.role !== 'ADMIN' && (
+    <Link
+      to="/profile-setup"
+      className="flex items-center space-x-2 px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-lg transition"
+      onClick={toggleDropdown}
+    >
+      <Settings size={18} />
+      <span>Change Bio Data</span>
+    </Link>
+  )}
+
+  {/* DIVIDER */}
+  <div className="border-t my-1" />
+
+  {/* LOGOUT */}
+  <button
+    onClick={() => {
+      logout();
+      toggleDropdown();
+    }}
+    className="flex items-center space-x-2 w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+  >
+    <LogOut size={18} />
+    <span>Logout</span>
+  </button>
+</div>
+
               )}
             </div>
           )}

@@ -9,6 +9,7 @@ import com.edu360.Edu360.repos.PostRepo;
 import com.edu360.Edu360.repos.StudentRepo;
 import com.edu360.Edu360.repos.TeacherRepo;
 import com.edu360.Edu360.repos.UserRepo;
+import com.edu360.Edu360.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,14 +33,18 @@ public class PostController {
     @Autowired
     private TeacherRepo teacherRepo;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/create")
     public String createPost(@RequestHeader("Authorization") String token,
                              @RequestBody Map<String, String> req) {
         String jwt = token.substring(7);
         String email = jwtUtil.extractUsername(jwt);
 
-        User user = userRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userService.findByEmail(email);
+        if(user==null)
+            throw new RuntimeException("User not found");
 
         Post post = new Post();
         post.setTitle(req.get("title"));
@@ -63,14 +68,15 @@ public class PostController {
         return "Post created successfully!";
     }
 
-    // 🔹 Student fetches relevant posts
+    // Student fetches relevant posts
     @GetMapping("/my")
     public List<Post> getMyPosts(@RequestHeader("Authorization") String token) {
         String jwt = token.substring(7);
         String email = jwtUtil.extractUsername(jwt);
 
-        User user = userRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userService.findByEmail(email);
+        if(user==null)
+            throw new RuntimeException("User not found");
 
         if (user.getRole() == User.Role.STUDENT) {
             Student student = studentRepo.findByUserId(user.getId()).orElse(null);//user.getStudent();

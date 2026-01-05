@@ -1,4 +1,4 @@
-const API_URL = 'http://13.233.230.205:8080/students';
+const API_URL = 'http://localhost:8080/students';
 
 export const getStudentProfile = async (token) => {
   const response = await fetch(`${API_URL}/profile`, {

@@ -27,14 +27,14 @@ const StudentDashboard = () => {
           to="/student/upload-activity"
           className="p-6 bg-white/30 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
         >
-          <h2 className="text-xl font-bold text-purple-600">Upload Certificate</h2>
+          <h2 className="text-xl font-bold text-purple-600">Upload Certificate/Activity</h2>
           <p className="mt-2 text-gray-700">Submit new activities for validation and approval.</p>
         </Link>
       </div>
 
       {/* Recent Posts */}
       <div className="mt-10">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800 border-b pb-2">Your Recent Posts</h2>
+        <h2 className="text-3xl font-bold mb-6 text-gray-800 border-b pb-2">Posts</h2>
         <MyPosts limit={3} />
       </div>
 

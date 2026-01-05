@@ -4,8 +4,11 @@ import com.edu360.Edu360.model.Student;
 import com.edu360.Edu360.model.User;
 import com.edu360.Edu360.repos.StudentRepo;
 import com.edu360.Edu360.repos.UserRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
+
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -36,5 +39,18 @@ public class StudentService {
     public Student getProfile(Long userId) {
         return studentRepo.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
+    }
+
+    @Transactional
+    public void delete(Long Id){
+        studentRepo.deleteById(Id);
+    }
+
+    public Student getById(Long Id){
+        return studentRepo.findById(Id).orElse(null);
+    }
+
+    public List<Student> findAll(){
+        return studentRepo.findAll();
     }
 }

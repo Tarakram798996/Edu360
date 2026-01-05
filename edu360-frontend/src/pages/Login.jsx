@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../api/auth';
 import { useAuth } from '../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
-import { LogIn } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -46,20 +45,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-600 relative overflow-hidden">
-      {/* Decorative background circles */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-white/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-yellow-400/20 rounded-full blur-2xl"></div>
-
-      {/* Login card */}
-      <div className="relative bg-white/20 backdrop-blur-2xl p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/30">
-        <div className="flex flex-col items-center mb-8">
-          
-          <h2 className="text-4xl font-extrabold text-white drop-shadow-md">Login</h2>
-          <p className="text-white/80 mt-2 text-center">
-            Welcome back! Please sign in to continue
-          </p>
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100">
+      <div className="bg-white/30 backdrop-blur-md p-10 rounded-3xl shadow-xl w-full max-w-md border border-white/30">
+        
+        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
+          Login
+        </h2>
 
         {message && (
           <p className="bg-red-100 text-red-700 p-2 mb-4 rounded shadow-sm text-center">
@@ -70,34 +61,35 @@ const Login = () => {
         <form onSubmit={handleLogin} className="space-y-5">
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-lg bg-white/80 border border-gray-200 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-md transition"
+            className="w-full px-4 py-3 rounded-lg bg-white/50 border border-white/30 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-md transition"
           />
+
           <input
             type="password"
-            placeholder="Enter your password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-lg bg-white/80 border border-gray-200 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-md transition"
+            className="w-full px-4 py-3 rounded-lg bg-white/50 border border-white/30 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-md transition"
           />
+
           <button
             type="submit"
-            className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg hover:scale-105 transition duration-300"
+            className="w-full py-3 rounded-lg bg-white/20 backdrop-blur-md border border-white/30 text-blue-600 font-semibold shadow-lg hover:bg-blue-500 hover:text-white transition duration-300"
           >
             Login
           </button>
         </form>
 
-        {/* Go to Register */}
-        <p className="mt-6 text-center text-white/90">
+        <p className="mt-6 text-center text-gray-700">
           Don’t have an account?{' '}
           <Link
             to="/register"
-            className="text-yellow-300 font-semibold hover:underline hover:text-yellow-200 transition"
+            className="text-blue-600 font-semibold hover:underline transition"
           >
             Register
           </Link>

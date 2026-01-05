@@ -6,6 +6,7 @@ import com.edu360.Edu360.model.User;
 import com.edu360.Edu360.repos.OtpRepository;
 import com.edu360.Edu360.repos.UserRepo;
 import com.edu360.Edu360.service.OtpService;
+import com.edu360.Edu360.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,7 +23,7 @@ import java.util.Random;
 public class AuthController {
 
     @Autowired
-    private UserRepo userRepository;
+    private UserService userService;
 
     @Autowired
     private OtpRepository otpRepository;
@@ -41,7 +42,7 @@ public class AuthController {
 
 
     private String sendOtp(String email, String role, String password) {
-        if (userRepository.findByEmail(email).isPresent()) {
+        if (userService.isEmailPresent(email)) {
             return "Email already exists!";
         }
 
@@ -67,15 +68,16 @@ public class AuthController {
         return sendOtp(req.get("email"), "STUDENT", req.get("password"));
     }
 
-    @PostMapping("/register-teacher")
-    public String registerTeacher(@RequestBody Map<String, String> req) {
-        return sendOtp(req.get("email"), "TEACHER", req.get("password"));
-    }
-
-    @PostMapping("/register-admin")
-    public String registerAdmin(@RequestBody Map<String, String> req) {
-        return sendOtp(req.get("email"), "ADMIN", req.get("password"));
-    }
+     //No Teacher & Admin Login, there is only one admin and he can add teachers.
+//    @PostMapping("/register-teacher")
+//    public String registerTeacher(@RequestBody Map<String, String> req) {
+//        return sendOtp(req.get("email"), "TEACHER", req.get("password"));
+//    }
+//
+//    @PostMapping("/register-admin")
+//    public String registerAdmin(@RequestBody Map<String, String> req) {
+//        return sendOtp(req.get("email"), "ADMIN", req.get("password"));
+//    }
 
 
     @PostMapping("/verify-otp")
@@ -96,7 +98,7 @@ public class AuthController {
         user.setRole(User.Role.valueOf(otp.getRole())); // use stored role
         user.setVerified(true);
 
-        userRepository.save(user);
+        userService.save(user);
         optService.deleteOtp(email);
 
         return "User registered successfully!";
@@ -108,12 +110,14 @@ public class AuthController {
         String email = req.get("email");
         String password = req.get("password");
         System.out.println("Login attempt for email: " + email);
-        User dbUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User dbUser = userService.findByEmail(email);
 
-        if (!dbUser.isVerified()) {
+        if(dbUser==null)
+            throw new RuntimeException("User not found");
+
+        if (!dbUser.isVerified())
             throw new RuntimeException("User not verified. Please complete OTP verification.");
-        }
+
 
         if (passwordEncoder.matches(password, dbUser.getPassword())) {
             return jwtUtil.generateToken(dbUser.getEmail(),dbUser.getRole().name());

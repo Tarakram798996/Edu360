@@ -20,14 +20,14 @@ public class ActivityService {
     @Autowired
     private TeacherRepo teacherRepo;
 
-    // 1️⃣ Add activity (student uploads)
+    // Add activity (student uploads)
     public Activity addActivity(Student student, Activity activity) {
         activity.setStudent(student);
         activity.setStatus(Activity.Status.PENDING);
         return activityRepo.save(activity);
     }
 
-    // 2️⃣ Get all activities of a student
+    //  Get all activities of a student
     public List<Activity> getActivitiesByStudent(Long studentId) {
         return activityRepo.findByStudentId(studentId);
     }
@@ -36,7 +36,7 @@ public class ActivityService {
         return activityRepo.findByVerifiedBy(teacher);
     }
 
-    // 3️⃣ Get pending activities for teacher
+    // Get pending activities for teacher
     public List<Activity> getPendingActivitiesForTeacher(Teacher teacher) {
         return activityRepo.findAllByStatusAndStudent_DeptAndStudent_SecAndStudent_Year(
                 Activity.Status.PENDING,
@@ -46,7 +46,7 @@ public class ActivityService {
         );
     }
 
-    // 4️⃣ Approve activity
+    // Approve activity
     public Activity approveActivity(Long activityId, Teacher teacher) {
         Activity activity = activityRepo.findById(activityId)
                 .orElseThrow(() -> new RuntimeException("Activity not found"));
@@ -55,7 +55,7 @@ public class ActivityService {
         return activityRepo.save(activity);
     }
 
-    // 5️⃣ Reject activity
+    // Reject activity
     public Activity rejectActivity(Long activityId, Teacher teacher) {
         Activity activity = activityRepo.findById(activityId)
                 .orElseThrow(() -> new RuntimeException("Activity not found"));

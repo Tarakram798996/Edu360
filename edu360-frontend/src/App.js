@@ -18,6 +18,8 @@ import Profile from './pages/Profile';
 import MyPosts from './components/student/MyPosts';
 import VerifiedActivities from './components/teacher/VerifiedActivities';
 import UploadActivityForm from './components/student/UploadActivityForm';
+import AddTeacher from './components/admin/AddTeacher'
+import RemoveUser from './components/admin/RemoveUser'
 
 // NEW: A component to handle the redirection logic after login
 const DashboardRedirect = () => {
@@ -84,6 +86,8 @@ function App() {
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/admin/post" element={<CreatePostForm />} />
               <Route path="/admin/post" element={<AdminPostForm />} />
+              <Route path="/admin/add-teacher" element={<AddTeacher />} />
+              <Route path="/admin/remove-user" element={<RemoveUser />} />
             </Route>
           </Route>
 
