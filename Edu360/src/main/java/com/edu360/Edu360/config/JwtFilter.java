@@ -16,7 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
-
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -29,7 +28,15 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws IOException, ServletException {
+                                    FilterChain filterChain)
+            throws IOException, ServletException {
+
+        String path = request.getServletPath();
+        if (path.startsWith("/auth") || request.getMethod().equals("OPTIONS")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String email = null;
@@ -47,9 +54,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
-                                email, null, List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                                email,
+                                null,
+                                List.of(new SimpleGrantedAuthority("ROLE_" + role))
                         );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
