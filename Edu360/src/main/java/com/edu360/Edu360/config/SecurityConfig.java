@@ -21,6 +21,10 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
+
+    @Value("${frontend.url}")
+    private String fendUrl;
+
     @Autowired
     private JwtFilter jwtFilter;
 
@@ -55,10 +59,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-                "http://localhost:3000",
-                "http://edu360-frontend.s3-website.ap-south-1.amazonaws.com"
-        ));
+        config.setAllowedOrigins(List.of(fendUrl));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
